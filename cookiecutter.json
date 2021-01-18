@@ -1,0 +1,13 @@
+{
+    "vendor": "Vendor",
+    "project_name": "{{ cookiecutter.vendor }} Client",
+    "project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '_') }}",
+    "project_facade": "{{ cookiecutter.project_name|replace(' ', '') }}",
+    "email": "",
+    "full_name": "",
+    "github_username": "",
+    "license": "MIT",
+    "_copy_without_render": [
+        ".circleci/config.yml"
+    ]
+}
