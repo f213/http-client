@@ -50,11 +50,11 @@ class Model:
         return result
 
     @classmethod
-    def from_vendor(cls, row: dict):
+    def from_json(cls, data: Union[list, dict]):
         """Make a dataclass instance out of vendor dump"""
-        initial_raw_data = row
+        initial_raw_data = data
 
-        line = snakesify_dict_keys(row)
+        line = snakesify_dict_keys(data)
 
         result = dict()
         for field in fields(cls):

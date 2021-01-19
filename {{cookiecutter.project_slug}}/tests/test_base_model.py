@@ -44,7 +44,7 @@ def test_data():
 
 @pytest.fixture
 def model(test_data):
-    return TstModel.from_vendor(test_data)
+    return TstModel.from_json(test_data)
 
 
 def test_field_types(model):
@@ -56,7 +56,7 @@ def test_field_types(model):
 def test_boolean_fields(test_data, initial):
     test_data['boolField'] = str(initial)
 
-    model = TstModel.from_vendor(test_data)
+    model = TstModel.from_json(test_data)
 
     assert model.boolean is initial
     assert model.string_bool == str(initial)
@@ -71,7 +71,7 @@ def test_initial_raw_data(test_data):
     class ModelWithInitialRawData(TstModel):
         initial_raw_data: dict
 
-    model = ModelWithInitialRawData.from_vendor(test_data)
+    model = ModelWithInitialRawData.from_json(test_data)
 
     assert model.initial_raw_data == test_data
 
