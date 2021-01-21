@@ -6,7 +6,7 @@ import pytest
 from {{cookiecutter.project_slug}}.models import Deserializers
 from {{cookiecutter.project_slug}}.models import Model
 from {{cookiecutter.project_slug}}.models import Serializers
-
+from {{cookiecutter.project_slug}}.models import {{cookiecutter.project_facade}}MissingField
 
 @dataclass
 class TstModel(Model):
@@ -83,3 +83,22 @@ def test_json(model):
     assert json['pk'] == '100500'
     assert json['date'] == '2032-12-01 15:30:45'
     assert 'field_to_drop' not in json
+
+
+def test_default_value(test_data):
+    @dataclass
+    class ModelWithDefaultValue(TstModel):
+        default_field: str = 'default_value'
+
+    model = ModelWithDefaultValue.from_json(test_data)
+
+    assert model.default_field == 'default_value'
+
+
+def test_should_fail_if_nonexistant_fields_are_present(test_data):
+    @dataclass
+    class ModelWithNonexistantField(TstModel):
+        nonexistant_field: int
+
+    with pytest.raises({{cookiecutter.project_facade}}MissingField):
+        ModelWithNonexistantField.from_json(test_data)

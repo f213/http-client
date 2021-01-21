@@ -6,6 +6,10 @@ from typing import Union
 from {{cookiecutter.project_slug}}.helpers import snakesify_dict_keys
 
 
+class {{cookiecutter.project_facade}}MissingField(TypeError):
+    pass
+
+
 class Deserializers:
     """Convert fields to python"""
     @staticmethod
@@ -62,12 +66,16 @@ class Model:
 
             value = cls.deserialize(field=field, value=line.get(field_name))
 
-            result[field.name] = value
+            if value is not None:
+                result[field.name] = value
 
         if cls.has_field('initial_raw_data'):
             result['initial_raw_data'] = initial_raw_data
 
-        return cls(**result)
+        try:
+            return cls(**result)
+        except TypeError as e:
+            raise {{cookiecutter.project_facade}}MissingField(str(e))
 
     @classmethod
     def has_field(cls, name) -> bool:
